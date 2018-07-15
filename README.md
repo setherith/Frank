@@ -13,3 +13,8 @@ Manifesto
 ..* Warnings and exclusion zones for dangerous areas
 * More advanced options for experts
 ..* Raw access to RegEx rename function
+
+Links
+-----
+* [Wants](https://github.com/setherith/Frank/blob/master/want.md) - A list of what I want in my application
+* [Concepts](https://github.com/setherith/Frank/blob/master/concept.md) - Some concepts for starters
