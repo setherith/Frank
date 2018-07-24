@@ -3,7 +3,7 @@ A FOSS cross-platform renaming tool
 
 In Honour
 ---------
-My smoking buddy Jim, whos actual name was Frank, but he changed it.
+My smoking buddy Jim, whos actual name was Frank.
 
 Manifesto
 ---------
