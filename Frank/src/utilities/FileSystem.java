@@ -20,4 +20,24 @@ public class FileSystem {
         }
         return results;
     }
+    
+    public static String[] GetFileList(String path) {
+        File directory = new File(path);
+        String[] all = directory.list();
+        int fileCount = 0;
+        for (String a : all) {
+            if (new File(a).isFile()) {
+                fileCount++;
+            }
+        }
+        String[] result = new String[fileCount];
+        int index = 0;
+        for (String file : all) {
+            if (new File(file).isFile()) {
+                result[index] = file;
+                index++;
+            }
+        }
+        return result;
+    }
 }
