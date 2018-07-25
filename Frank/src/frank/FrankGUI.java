@@ -2,6 +2,7 @@ package frank;
 
 import javax.swing.JOptionPane;
 import javax.swing.UnsupportedLookAndFeelException;
+import utilities.FileSystem;
 
 /**
  *
@@ -9,13 +10,24 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class FrankGUI extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrankGUI
-     */
     public FrankGUI() {
         initComponents();
+        InitUI();
     }
 
+    public void InitUI() {
+        // Get Drive List
+        String[] drives = FileSystem.GetDriveList();
+        jComboBox1.removeAllItems();
+        for (String drive : drives) {
+            jComboBox1.addItem(drive);    
+        }
+        
+        // Get Current Working Directory
+        String wd = FileSystem.GetApplicationPath();
+        jTextField1.setText(wd);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -25,12 +37,28 @@ public class FrankGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         jMenuFrankGUI = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Frank");
+        setBackground(java.awt.Color.white);
+        setName("FrankGUI"); // NOI18N
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel1.setText("Drive / Mount:");
+
+        jLabel2.setText("Path:");
+
+        jTextField1.setText("jTextField1");
 
         jMenu1.setText("File");
 
@@ -45,6 +73,15 @@ public class FrankGUI extends javax.swing.JFrame {
         jMenuFrankGUI.add(jMenu1);
 
         jMenu2.setText("About");
+
+        jMenuItem2.setText("About...");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
         jMenuFrankGUI.add(jMenu2);
 
         setJMenuBar(jMenuFrankGUI);
@@ -53,12 +90,34 @@ public class FrankGUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 383, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(319, Short.MAX_VALUE))
         );
+
+        getAccessibleContext().setAccessibleDescription("Renaming is the game, any operating system is the aim!");
 
         pack();
         setLocationRelativeTo(null);
@@ -71,6 +130,10 @@ public class FrankGUI extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        JOptionPane.showMessageDialog(null, "Frank: The file system renaming tool for all operating systems.\nDeveloped by Shane Pudner (setherith@gmail.com)", "About", JOptionPane.INFORMATION_MESSAGE);    
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     public void SetLookAndFeel() {
         try {
@@ -101,9 +164,14 @@ public class FrankGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuFrankGUI;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
