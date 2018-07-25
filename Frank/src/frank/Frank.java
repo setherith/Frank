@@ -7,13 +7,14 @@ package frank;
 public class Frank {
 
     public static void main(String[] args) {
-        Frank frank = new Frank();
-        System.out.print("Quiting...");
-    }
-    
-    public Frank()
-    {
-        
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                FrankGUI ui = new FrankGUI();
+                ui.SetLookAndFeel();
+                ui.setVisible(true);
+            }
+        });
     }
     
 }
