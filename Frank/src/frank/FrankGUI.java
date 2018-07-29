@@ -81,6 +81,12 @@ public class FrankGUI extends javax.swing.JFrame {
 
         lblPath.setText("Path:");
 
+        txtPath.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPathKeyReleased(evt);
+            }
+        });
+
         lstBefore.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lstBefore.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -218,6 +224,13 @@ public class FrankGUI extends javax.swing.JFrame {
     private void lstAfterValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAfterValueChanged
         lstBefore.setSelectedIndex(lstAfter.getSelectedIndex());
     }//GEN-LAST:event_lstAfterValueChanged
+
+    private void txtPathKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPathKeyReleased
+        String path = txtPath.getText();
+        if (FileSystem.PathExists(path) && FileSystem.PathIsDirectory(path)) {
+            UpdateFileLists();
+        }
+    }//GEN-LAST:event_txtPathKeyReleased
 
     public void SetLookAndFeel() {
         try {

@@ -7,6 +7,16 @@ import java.io.File;
  * @author Shane Pudner <setherith@gmail.com>
  */
 public class FileSystem {
+    
+    public static boolean PathExists(String path) {
+        File f = new File(path);
+        return f.exists();
+    }
+    
+    public static boolean PathIsDirectory(String path) {
+        File f = new File(path);
+        return f.isDirectory();
+    }
 
     public static String GetApplicationPath() {
         return System.getProperty("user.dir");
@@ -23,20 +33,10 @@ public class FileSystem {
     
     public static String[] GetFileList(String path) {
         File directory = new File(path);
-        String[] all = directory.list();
-        int fileCount = 0;
-        for (String a : all) {
-            if (new File(a).isFile()) {
-                fileCount++;
-            }
-        }
-        String[] result = new String[fileCount];
-        int index = 0;
-        for (String file : all) {
-            if (new File(file).isFile()) {
-                result[index] = file;
-                index++;
-            }
+        File[] allFiles = directory.listFiles();
+        String[] result = new String[allFiles.length];
+        for (int i = 0; i < allFiles.length; i++) {
+            result[i] = allFiles[i].getName();
         }
         return result;
     }
