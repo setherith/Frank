@@ -2,6 +2,7 @@ package frank;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 import javax.swing.UnsupportedLookAndFeelException;
 import utilities.FileSystem;
 
@@ -64,6 +65,11 @@ public class FrankGUI extends javax.swing.JFrame {
         lblBefore = new javax.swing.JLabel();
         lblAfter = new javax.swing.JLabel();
         btnRename = new javax.swing.JButton();
+        tabOptions = new javax.swing.JTabbedPane();
+        pnlRemove = new javax.swing.JPanel();
+        txtRemove = new javax.swing.JTextField();
+        lblRemove = new javax.swing.JLabel();
+        chkRemoveAll = new javax.swing.JCheckBox();
         jMenuFrankGUI = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -74,23 +80,28 @@ public class FrankGUI extends javax.swing.JFrame {
         setTitle("Frank");
         setBackground(java.awt.Color.white);
         setName("FrankGUI"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(700, 500));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
         });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lstDrive.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(lstDrive, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 100, 30));
 
         lblDrive.setText("Drive / Mount:");
+        getContentPane().add(lblDrive, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         lblPath.setText("Path:");
+        getContentPane().add(lblPath, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, -1, -1));
 
         txtPath.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPathKeyReleased(evt);
             }
         });
+        getContentPane().add(txtPath, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 560, 30));
 
         lstBefore.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lstBefore.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -100,6 +111,8 @@ public class FrankGUI extends javax.swing.JFrame {
         });
         scrollBefore.setViewportView(lstBefore);
 
+        getContentPane().add(scrollBefore, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 328, 246));
+
         lstAfter.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lstAfter.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -108,9 +121,13 @@ public class FrankGUI extends javax.swing.JFrame {
         });
         scrollAfter.setViewportView(lstAfter);
 
+        getContentPane().add(scrollAfter, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, 330, 246));
+
         lblBefore.setText("Before:");
+        getContentPane().add(lblBefore, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
 
         lblAfter.setText("After:");
+        getContentPane().add(lblAfter, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 70, -1, -1));
 
         btnRename.setText("Rename");
         btnRename.addActionListener(new java.awt.event.ActionListener() {
@@ -118,6 +135,26 @@ public class FrankGUI extends javax.swing.JFrame {
                 btnRenameActionPerformed(evt);
             }
         });
+        getContentPane().add(btnRename, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 400, 100, -1));
+
+        pnlRemove.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtRemove.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtRemoveKeyReleased(evt);
+            }
+        });
+        pnlRemove.add(txtRemove, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 310, 30));
+
+        lblRemove.setText("What to remove:");
+        pnlRemove.add(lblRemove, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 30));
+
+        chkRemoveAll.setText("All?");
+        pnlRemove.add(chkRemoveAll, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 10, -1, 30));
+
+        tabOptions.addTab("Remove", pnlRemove);
+
+        getContentPane().add(tabOptions, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 550, 90));
 
         jMenu1.setText("File");
 
@@ -144,61 +181,6 @@ public class FrankGUI extends javax.swing.JFrame {
         jMenuFrankGUI.add(jMenu2);
 
         setJMenuBar(jMenuFrankGUI);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblDrive)
-                    .addComponent(scrollBefore, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblBefore))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblAfter)
-                    .addComponent(scrollAfter, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(lstDrive, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPath)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblPath)
-                                .addGap(548, 548, 548))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRename)))
-                .addGap(12, 12, 12))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDrive)
-                    .addComponent(lblPath))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtPath, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lstDrive, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblBefore)
-                    .addComponent(lblAfter))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollAfter, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-                    .addComponent(scrollBefore))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnRename)
-                .addContainerGap())
-        );
 
         getAccessibleContext().setAccessibleDescription("Renaming is the game, any operating system is the aim!");
 
@@ -244,6 +226,27 @@ public class FrankGUI extends javax.swing.JFrame {
         ConfirmExit();
     }//GEN-LAST:event_formWindowClosing
 
+    private void txtRemoveKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRemoveKeyReleased
+        String operand = txtRemove.getText();
+        if (operand.isEmpty()) return;
+        
+        lstAfter.removeAll();
+        
+        DefaultListModel<String> after = new DefaultListModel<String>();
+        ListModel<String> before = lstBefore.getModel();
+        for (int i = 0; i < before.getSize(); i++) {
+            String item = before.getElementAt(i);
+            int position;
+            if ((position = item.indexOf(operand)) != -1) {
+                item = item.replace(operand, "");
+                after.addElement(item);
+            }
+        }
+        
+        lstAfter.setModel(after);
+        
+    }//GEN-LAST:event_txtRemoveKeyReleased
+
     public void SetLookAndFeel() {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -274,6 +277,7 @@ public class FrankGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRename;
+    private javax.swing.JCheckBox chkRemoveAll;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuFrankGUI;
@@ -283,11 +287,15 @@ public class FrankGUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblBefore;
     private javax.swing.JLabel lblDrive;
     private javax.swing.JLabel lblPath;
+    private javax.swing.JLabel lblRemove;
     private javax.swing.JList<String> lstAfter;
     private javax.swing.JList<String> lstBefore;
     private javax.swing.JComboBox<String> lstDrive;
+    private javax.swing.JPanel pnlRemove;
     private javax.swing.JScrollPane scrollAfter;
     private javax.swing.JScrollPane scrollBefore;
+    private javax.swing.JTabbedPane tabOptions;
     private javax.swing.JTextField txtPath;
+    private javax.swing.JTextField txtRemove;
     // End of variables declaration//GEN-END:variables
 }
