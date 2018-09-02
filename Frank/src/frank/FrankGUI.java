@@ -1,6 +1,8 @@
 package frank;
 
+import core.RenameEngine;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -226,27 +228,31 @@ public class FrankGUI extends javax.swing.JFrame {
         ConfirmExit();
     }//GEN-LAST:event_formWindowClosing
 
-    private void txtRemoveKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRemoveKeyReleased
-        String operand = txtRemove.getText();
-        if (operand.isEmpty()) return;
-        
-        lstAfter.removeAll();
-        
-        DefaultListModel<String> after = new DefaultListModel<String>();
-        ListModel<String> before = lstBefore.getModel();
-        for (int i = 0; i < before.getSize(); i++) {
-            String item = before.getElementAt(i);
-            int position;
-            if ((position = item.indexOf(operand)) != -1) {
-                item = item.replace(operand, "");
-                after.addElement(item);
-            }
+    private String[] ListModelToArray(ListModel model) {
+        String[] results = new String[model.getSize()];
+        for (int i = 0; i < model.getSize(); i++) {
+            results[i] = model.getElementAt(i).toString();
         }
-        
-        lstAfter.setModel(after);
-        
+        return results;
+    }
+    
+    private void txtRemoveKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRemoveKeyReleased
+        String remove = txtRemove.getText();
+        if (remove.isEmpty()) return;
+        lstAfter.removeAll();
+        String[] before = ListModelToArray(lstBefore.getModel());
+        String[] after = RenameEngine.RemoveAllInstancesOf(remove, before, false);
+        LoadArrayIntoList(lstAfter, after);
     }//GEN-LAST:event_txtRemoveKeyReleased
 
+    private void LoadArrayIntoList(JList<String> control, String[] list) {
+        DefaultListModel<String> afterModel = new DefaultListModel<String>();
+        for (int i = 0; i < list.length; i++) {
+            afterModel.addElement(list[i]);
+        }
+        control.setModel(afterModel);
+    }
+    
     public void SetLookAndFeel() {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
