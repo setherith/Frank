@@ -1,6 +1,8 @@
 package frank;
 
 import core.RenameEngine;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -211,17 +213,35 @@ public class FrankGUI extends javax.swing.JFrame {
 
     private void lstBeforeValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstBeforeValueChanged
         lstAfter.setSelectedIndex(lstBefore.getSelectedIndex());
+        ChangeDirectoryCheck(lstBefore.getSelectedValue());
     }//GEN-LAST:event_lstBeforeValueChanged
 
     private void lstAfterValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAfterValueChanged
         lstBefore.setSelectedIndex(lstAfter.getSelectedIndex());
+        ChangeDirectoryCheck(lstAfter.getSelectedValue());
     }//GEN-LAST:event_lstAfterValueChanged
 
-    private void txtPathKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPathKeyReleased
+    private void ChangeDirectoryCheck(String path) {
+        if (path == null || path.length() == 0) return;
+        String domain = txtPath.getText();
+        Path combination = Paths.get(domain, path);
+        boolean isDir = combination.toFile().isDirectory();
+        if (isDir) {
+            txtPath.setText(combination.toAbsolutePath().toString());
+            // update the lists here
+            Update();
+        }
+    }
+    
+    private void Update() {
         String path = txtPath.getText();
         if (FileSystem.PathExists(path) && FileSystem.PathIsDirectory(path)) {
             UpdateFileLists();
         }
+    }
+    
+    private void txtPathKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPathKeyReleased
+        Update();
     }//GEN-LAST:event_txtPathKeyReleased
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
