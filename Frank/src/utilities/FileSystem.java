@@ -40,4 +40,11 @@ public class FileSystem {
         }
         return result;
     }
+    
+    public static boolean Rename(String origin, String destination) {
+        if (PathExists(destination)) return false;
+        if (PathIsDirectory(origin) || PathIsDirectory(destination)) return false;
+        if (!PathExists(origin)) return false;
+        return new File(origin).renameTo(new File(destination));
+    }
 }

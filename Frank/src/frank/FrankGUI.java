@@ -3,6 +3,7 @@ package frank;
 import core.RenameEngine;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -208,7 +209,18 @@ public class FrankGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void btnRenameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenameActionPerformed
-        System.out.println("Currently not working...");
+        ListModel<String> before = lstBefore.getModel();
+        ListModel<String> after = lstAfter.getModel();
+        
+        for (int i = 0; i < before.getSize(); i++) {
+            String fileBefore = before.getElementAt(i);
+            String fileAfter = after.getElementAt(i);
+            
+            FileSystem.Rename(Paths.get(txtPath.getText(), fileBefore).toAbsolutePath().toString(), 
+                    Paths.get(txtPath.getText(), fileAfter).toAbsolutePath().toString());
+        }
+
+        Update();
     }//GEN-LAST:event_btnRenameActionPerformed
 
     private void lstBeforeValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstBeforeValueChanged
