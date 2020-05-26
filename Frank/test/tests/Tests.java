@@ -9,10 +9,6 @@ import org.junit.Test;
 import repositories.TestFiles;
 import utilities.FileSystem;
 
-/**
- *
- * @author Shane Pudner <setherith@gmail.com>
- */
 public class Tests {
     
     TestFiles tf;
