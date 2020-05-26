@@ -1,84 +1,96 @@
 package frank;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import core.RenameEngine;
 import utilities.FileSystem;
 
-public class FrankGUI extends javax.swing.JFrame {
+public class FrankGUI extends JFrame {
 
+    private JButton btnRename;
+    private JCheckBox chkRemoveAll;
+    private JMenu jMenu1;
+    private JMenu jMenu2;
+    private JMenuBar jMenuFrankGUI;
+    private JMenuItem jMenuItem1;
+    private JMenuItem jMenuItem2;
+    private JLabel lblAfter;
+    private JLabel lblBefore;
+    private JLabel lblDrive;
+    private JLabel lblPath;
+    private JLabel lblRemove;
+    private JList<String> lstAfter;
+    private JList<String> lstBefore;
+    private JComboBox<String> lstDrive;
+    private JPanel pnlRemove;
+    private JScrollPane scrollAfter;
+    private JScrollPane scrollBefore;
+    private JTabbedPane tabOptions;
+    private JTextField txtPath;
+    private JTextField txtRemove;
+	
 	private static final long serialVersionUID = 35470893526607351L;
+	
 	public FrankGUI() {
-        initComponents();
-        InitUI();
-    }
+		lstDrive = new JComboBox<>();
+        lblDrive = new JLabel();
+        lblPath = new JLabel();
+        txtPath = new JTextField();
+        scrollBefore = new JScrollPane();
+        lstBefore = new JList<>();
+        scrollAfter = new JScrollPane();
+        lstAfter = new JList<>();
+        lblBefore = new JLabel();
+        lblAfter = new JLabel();
+        btnRename = new JButton();
+        tabOptions = new JTabbedPane();
+        pnlRemove = new JPanel();
+        txtRemove = new JTextField();
+        lblRemove = new JLabel();
+        chkRemoveAll = new JCheckBox();
+        jMenuFrankGUI = new JMenuBar();
+        jMenu1 = new JMenu();
+        jMenuItem1 = new JMenuItem();
+        jMenu2 = new JMenu();
+        jMenuItem2 = new JMenuItem();
 
-    public void InitUI() {
-        // Get Drive List
-        String[] drives = FileSystem.GetDriveList();
-        lstDrive.removeAllItems();
-        for (String drive : drives) {
-            lstDrive.addItem(drive);    
-        }
-        
-        // Get Current Working Directory
-        String wd = FileSystem.GetApplicationPath();
-        txtPath.setText(wd);
-        
-        // Populate File List
-        UpdateFileLists();
-    }
-    
-    private void UpdateFileLists() {
-        DefaultListModel<String> model = new DefaultListModel<String>();
-        model.clear();
-        String wd = txtPath.getText();
-        String[] files = FileSystem.GetFileList(wd);
-        for (int i = 0; i < files.length; i++) {
-            model.add(i, files[i]);    
-        }
-        lstBefore.setModel(model);
-        lstAfter.setModel(model);
-    }
-    
-    private void initComponents() {
-
-        lstDrive = new javax.swing.JComboBox<>();
-        lblDrive = new javax.swing.JLabel();
-        lblPath = new javax.swing.JLabel();
-        txtPath = new javax.swing.JTextField();
-        scrollBefore = new javax.swing.JScrollPane();
-        lstBefore = new javax.swing.JList<>();
-        scrollAfter = new javax.swing.JScrollPane();
-        lstAfter = new javax.swing.JList<>();
-        lblBefore = new javax.swing.JLabel();
-        lblAfter = new javax.swing.JLabel();
-        btnRename = new javax.swing.JButton();
-        tabOptions = new javax.swing.JTabbedPane();
-        pnlRemove = new javax.swing.JPanel();
-        txtRemove = new javax.swing.JTextField();
-        lblRemove = new javax.swing.JLabel();
-        chkRemoveAll = new javax.swing.JCheckBox();
-        jMenuFrankGUI = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Frank");
         setBackground(java.awt.Color.white);
-        setName("FrankGUI"); // NOI18N
+        setName("FrankGUI");
         setPreferredSize(new java.awt.Dimension(700, 500));
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent evt) {
                 formWindowClosing(evt);
             }
         });
@@ -95,17 +107,17 @@ public class FrankGUI extends javax.swing.JFrame {
         getContentPane().add(lblPath);
         lblPath.setBounds(120, 10, -1, -1);
 
-        txtPath.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
+        txtPath.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent evt) {
                 txtPathKeyReleased(evt);
             }
         });
         getContentPane().add(txtPath);
         txtPath.setBounds(120, 30, 560, 30);
 
-        lstBefore.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        lstBefore.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+        lstBefore.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        lstBefore.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent evt) {
                 lstBeforeValueChanged(evt);
             }
         });
@@ -114,9 +126,9 @@ public class FrankGUI extends javax.swing.JFrame {
         getContentPane().add(scrollBefore);
         scrollBefore.setBounds(10, 90, 328, 246);
 
-        lstAfter.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        lstAfter.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+        lstAfter.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        lstAfter.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent evt) {
                 lstAfterValueChanged(evt);
             }
         });
@@ -134,8 +146,8 @@ public class FrankGUI extends javax.swing.JFrame {
         lblAfter.setBounds(350, 70, -1, -1);
 
         btnRename.setText("Rename");
-        btnRename.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnRename.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 btnRenameActionPerformed(evt);
             }
         });
@@ -144,8 +156,8 @@ public class FrankGUI extends javax.swing.JFrame {
 
         pnlRemove.setLayout(null);
 
-        txtRemove.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
+        txtRemove.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent evt) {
                 txtRemoveKeyReleased(evt);
             }
         });
@@ -169,8 +181,8 @@ public class FrankGUI extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         jMenuItem1.setText("Exit");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
             }
         });
@@ -181,8 +193,8 @@ public class FrankGUI extends javax.swing.JFrame {
         jMenu2.setText("About");
 
         jMenuItem2.setText("About...");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
             }
         });
@@ -196,8 +208,34 @@ public class FrankGUI extends javax.swing.JFrame {
 
         pack();
         setLocationRelativeTo(null);
-    }// </editor-fold>//GEN-END:initComponents
 
+        // Get Drive List
+        String[] drives = FileSystem.GetDriveList();
+        lstDrive.removeAllItems();
+        for (String drive : drives) {
+            lstDrive.addItem(drive);    
+        }
+        
+        // Get Current Working Directory
+        String wd = FileSystem.GetApplicationPath();
+        txtPath.setText(wd);
+        
+        // Populate File List
+        UpdateFileLists();
+    }
+
+    private void UpdateFileLists() {
+        DefaultListModel<String> model = new DefaultListModel<String>();
+        model.clear();
+        String wd = txtPath.getText();
+        String[] files = FileSystem.GetFileList(wd);
+        for (int i = 0; i < files.length; i++) {
+            model.add(i, files[i]);    
+        }
+        lstBefore.setModel(model);
+        lstAfter.setModel(model);
+    }
+    
     private void ConfirmExit() {
         int answer = JOptionPane.showConfirmDialog(null, "Exit application?", "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (answer == JOptionPane.YES_OPTION) {
@@ -205,15 +243,15 @@ public class FrankGUI extends javax.swing.JFrame {
         }
     }
     
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jMenuItem1ActionPerformed(ActionEvent evt) {
         ConfirmExit();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void jMenuItem2ActionPerformed(ActionEvent evt) {
         JOptionPane.showMessageDialog(null, "Frank: The file system renaming tool for all operating systems.\nDeveloped by Shane Pudner (setherith@gmail.com)", "About", JOptionPane.INFORMATION_MESSAGE);    
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }
 
-    private void btnRenameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenameActionPerformed
+    private void btnRenameActionPerformed(ActionEvent evt) {
         ListModel<String> before = lstBefore.getModel();
         ListModel<String> after = lstAfter.getModel();
         
@@ -226,17 +264,17 @@ public class FrankGUI extends javax.swing.JFrame {
         }
 
         Update();
-    }//GEN-LAST:event_btnRenameActionPerformed
+    }
 
-    private void lstBeforeValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstBeforeValueChanged
+    private void lstBeforeValueChanged(ListSelectionEvent evt) {
         lstAfter.setSelectedIndex(lstBefore.getSelectedIndex());
         ChangeDirectoryCheck(lstBefore.getSelectedValue());
-    }//GEN-LAST:event_lstBeforeValueChanged
+    }
 
-    private void lstAfterValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstAfterValueChanged
+    private void lstAfterValueChanged(ListSelectionEvent evt) {
         lstBefore.setSelectedIndex(lstAfter.getSelectedIndex());
         ChangeDirectoryCheck(lstAfter.getSelectedValue());
-    }//GEN-LAST:event_lstAfterValueChanged
+    }
 
     private void ChangeDirectoryCheck(String path) {
         if (path == null || path.length() == 0) return;
@@ -257,13 +295,13 @@ public class FrankGUI extends javax.swing.JFrame {
         }
     }
     
-    private void txtPathKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPathKeyReleased
+    private void txtPathKeyReleased(KeyEvent evt) {
         Update();
-    }//GEN-LAST:event_txtPathKeyReleased
+    }
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+    private void formWindowClosing(WindowEvent evt) {
         ConfirmExit();
-    }//GEN-LAST:event_formWindowClosing
+    }
 
     private String[] ListModelToArray(ListModel<String> model) {
         String[] results = new String[model.getSize()];
@@ -273,14 +311,14 @@ public class FrankGUI extends javax.swing.JFrame {
         return results;
     }
     
-    private void txtRemoveKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRemoveKeyReleased
+    private void txtRemoveKeyReleased(KeyEvent evt) {
         String remove = txtRemove.getText();
         if (remove.isEmpty()) return;
         lstAfter.removeAll();
         String[] before = ListModelToArray(lstBefore.getModel());
         String[] after = RenameEngine.RemoveAllInstancesOf(remove, before, false);
         LoadArrayIntoList(lstAfter, after);
-    }//GEN-LAST:event_txtRemoveKeyReleased
+    }
 
     private void LoadArrayIntoList(JList<String> control, String[] list) {
         DefaultListModel<String> afterModel = new DefaultListModel<String>();
@@ -292,9 +330,9 @@ public class FrankGUI extends javax.swing.JFrame {
     
     public void SetLookAndFeel() {
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
@@ -304,11 +342,7 @@ public class FrankGUI extends javax.swing.JFrame {
         }
     }
     
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 FrankGUI ui = new FrankGUI();
@@ -317,28 +351,4 @@ public class FrankGUI extends javax.swing.JFrame {
             }
         });
     }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnRename;
-    private javax.swing.JCheckBox chkRemoveAll;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuFrankGUI;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JLabel lblAfter;
-    private javax.swing.JLabel lblBefore;
-    private javax.swing.JLabel lblDrive;
-    private javax.swing.JLabel lblPath;
-    private javax.swing.JLabel lblRemove;
-    private javax.swing.JList<String> lstAfter;
-    private javax.swing.JList<String> lstBefore;
-    private javax.swing.JComboBox<String> lstDrive;
-    private javax.swing.JPanel pnlRemove;
-    private javax.swing.JScrollPane scrollAfter;
-    private javax.swing.JScrollPane scrollBefore;
-    private javax.swing.JTabbedPane tabOptions;
-    private javax.swing.JTextField txtPath;
-    private javax.swing.JTextField txtRemove;
-    // End of variables declaration//GEN-END:variables
 }
