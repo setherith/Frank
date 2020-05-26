@@ -26,8 +26,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -326,29 +324,5 @@ public class FrankGUI extends JFrame {
             afterModel.addElement(list[i]);
         }
         control.setModel(afterModel);
-    }
-    
-    public void SetLookAndFeel() {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException 
-                | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrankGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-    }
-    
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FrankGUI ui = new FrankGUI();
-                ui.SetLookAndFeel();
-                ui.setVisible(true);
-            }
-        });
     }
 }
