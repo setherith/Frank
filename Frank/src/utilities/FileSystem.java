@@ -2,10 +2,6 @@ package utilities;
 
 import java.io.File;
 
-/**
- *
- * @author Shane Pudner <setherith@gmail.com>
- */
 public class FileSystem {
     
     public static boolean PathExists(String path) {

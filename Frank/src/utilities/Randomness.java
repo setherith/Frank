@@ -1,9 +1,5 @@
 package utilities;
 
-/**
- *
- * @author Shane Pudner <setherith@gmail.com>
- */
 public class Randomness {
     
     /**

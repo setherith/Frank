@@ -4,10 +4,6 @@ import interfaces.ITestFiles;
 import java.io.File;
 import utilities.FileSystem;
 
-/**
- *
- * @author Shane Pudner <setherith@gmail.com>
- */
 public class TestFiles implements ITestFiles {
 
     private String testPath = "/TestArea";

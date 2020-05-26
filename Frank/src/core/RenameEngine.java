@@ -1,8 +1,5 @@
 package core;
 
-/**
- * @author Shane Pudner
- */
 public class RenameEngine {
     public static String[] RemoveAllInstancesOf(String remove, String[] input, boolean caseSensative) {
         String[] result = new String[input.length];
