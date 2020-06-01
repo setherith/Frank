@@ -7,6 +7,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -14,6 +15,7 @@ import javax.swing.BoundedRangeModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -26,10 +28,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileFilter;
 
 import frank.components.MainMenu;
 import frank.components.RemovePanel;
 import frank.components.WindowCloseListener;
+import javafx.stage.FileChooser;
 import utilities.FileSystem;
 
 public class FrankGUI extends JFrame {
@@ -70,8 +74,38 @@ public class FrankGUI extends JFrame {
             	Update();
             }
         });
-        txtPath.setBounds(110, 5, 570, 25);
+        txtPath.setBounds(110, 5, 540, 25);
         add(txtPath);
+        
+        JButton btnBrowse = new JButton(".");
+        btnBrowse.setBounds(654, 5, 25, 24);
+        btnBrowse.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fc = new JFileChooser();
+				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fc.setFileFilter(new FileFilter() {
+					
+					@Override
+					public String getDescription() {
+						return "Directories";
+					}
+					
+					@Override
+					public boolean accept(File f) {
+						return f.isDirectory();
+					}
+				});
+				int response = fc.showOpenDialog(null);
+				if (response == JFileChooser.APPROVE_OPTION) {
+					File f = fc.getSelectedFile();
+					txtPath.setText(f.getAbsolutePath());
+					Update();
+				}
+			}
+		});
+        add(btnBrowse);
 
         lstBefore = new JList<String>();
         lstBefore.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
