@@ -33,7 +33,7 @@ import javax.swing.filechooser.FileFilter;
 import frank.components.MainMenu;
 import frank.components.RemovePanel;
 import frank.components.WindowCloseListener;
-import javafx.stage.FileChooser;
+import preferences.Preferences;
 import utilities.FileSystem;
 
 public class FrankGUI extends JFrame {
@@ -49,10 +49,14 @@ public class FrankGUI extends JFrame {
 	
 	private static final long serialVersionUID = 35470893526607351L;
 	
+	private static Preferences prefs;
+	
 	public FrankGUI() {
 		
+		prefs = new Preferences();
+		
 		// Initial setup...
-		setTitle("Frank");
+		setTitle(String.format("Frank v%s", prefs.getPreference("version")));
 		setLayout(null);
 		setPreferredSize(new Dimension(700, 500));
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
