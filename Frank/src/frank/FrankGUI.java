@@ -5,9 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.swing.BoundedRangeModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -82,20 +85,41 @@ public class FrankGUI extends JFrame {
         scrollBefore = new JScrollPane();
         scrollBefore.setViewportView(lstBefore);
         scrollBefore.setBounds(5, 35, 335, 250);
+        scrollBefore.addMouseWheelListener(new MouseWheelListener() {
+			
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent arg0) {
+				// Sync before and after scrolling
+				BoundedRangeModel scrollModel = scrollBefore.getVerticalScrollBar().getModel();
+				scrollAfter.getVerticalScrollBar().setModel(scrollModel);
+				
+				
+			}
+		});
         add(scrollBefore);
 
         lstAfter = new JList<String>();
         lstAfter.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
         lstAfter.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent evt) {
-                lstBefore.setSelectedIndex(lstAfter.getSelectedIndex());
-                ChangeDirectoryCheck(lstAfter.getSelectedValue());
-            }
+        	public void valueChanged(ListSelectionEvent evt) {
+        		lstBefore.setSelectedIndex(lstAfter.getSelectedIndex());
+        		ChangeDirectoryCheck(lstAfter.getSelectedValue());
+        	}
         });
         
         scrollAfter = new JScrollPane();
         scrollAfter.setViewportView(lstAfter);
         scrollAfter.setBounds(345, 35, 335, 250);
+        scrollAfter.addMouseWheelListener(new MouseWheelListener() {
+			
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				// Sync before and after scrolling
+				BoundedRangeModel scrollModel = scrollAfter.getVerticalScrollBar().getModel();
+				scrollBefore.getVerticalScrollBar().setModel(scrollModel);
+			}
+		});
         add(scrollAfter);
 
         JLabel lblDrive = new JLabel("Drive / Mount:");
