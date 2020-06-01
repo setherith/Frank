@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,24 +24,21 @@ import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import core.RenameEngine;
 import frank.components.MainMenu;
+import frank.components.RemovePanel;
 import frank.components.WindowCloseListener;
 import utilities.FileSystem;
 
 public class FrankGUI extends JFrame {
 
     private JButton btnRename;
-    private JCheckBox chkRemoveAll;
-    private JList<String> lstAfter;
-    private JList<String> lstBefore;
+    public JList<String> lstAfter;
+    public JList<String> lstBefore;
     private JComboBox<String> lstDrive;
-    private JPanel pnlRemove;
     private JScrollPane scrollAfter;
     private JScrollPane scrollBefore;
     private JTabbedPane tabOptions;
     private JTextField txtPath;
-    private JTextField txtRemove;
 	
 	private static final long serialVersionUID = 35470893526607351L;
 	
@@ -59,9 +55,7 @@ public class FrankGUI extends JFrame {
         
         btnRename = new JButton();
         tabOptions = new JTabbedPane();
-        pnlRemove = new JPanel();
-        txtRemove = new JTextField();
-        chkRemoveAll = new JCheckBox();
+        JPanel pnlRemove = new RemovePanel(this);
         
         lstDrive = new JComboBox<String>();
         lstDrive.setBounds(5, 5, 100, 25);
@@ -119,10 +113,6 @@ public class FrankGUI extends JFrame {
         JLabel lblAfter = new JLabel("After:");
         lblAfter.setBounds(350, 70, -1, -1);
         add(lblAfter);
-        
-        JLabel lblRemove = new JLabel("What to remove:");
-        lblRemove.setBounds(10, 10, -1, 30);
-        pnlRemove.add(lblRemove);
 
         btnRename.setText("Rename");
         btnRename.addActionListener(new ActionListener() {
@@ -133,26 +123,10 @@ public class FrankGUI extends JFrame {
         btnRename.setBounds(580, 400, 100, 25);
         add(btnRename);
 
-        pnlRemove.setLayout(null);
-
-        txtRemove.addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent evt) {
-                txtRemoveKeyReleased(evt);
-            }
-        });
-        pnlRemove.add(txtRemove);
-        txtRemove.setBounds(150, 10, 310, 30);
-
-        chkRemoveAll.setText("All?");
-        pnlRemove.add(chkRemoveAll);
-        chkRemoveAll.setBounds(470, 10, -1, 30);
-        
         tabOptions.addTab("Remove", pnlRemove);
 
         add(tabOptions);
-        tabOptions.setBounds(10, 340, 550, 90);
-
-        getAccessibleContext().setAccessibleDescription("Renaming is the game, any operating system is the aim!");
+        tabOptions.setBounds(5, 285, 675, 100);
 
         pack();
         setLocationRelativeTo(null);
@@ -218,7 +192,7 @@ public class FrankGUI extends JFrame {
         }
     }
     
-    private String[] ListModelToArray(ListModel<String> model) {
+    public String[] ListModelToArray(ListModel<String> model) {
         String[] results = new String[model.getSize()];
         for (int i = 0; i < model.getSize(); i++) {
             results[i] = model.getElementAt(i).toString();
@@ -226,16 +200,7 @@ public class FrankGUI extends JFrame {
         return results;
     }
     
-    private void txtRemoveKeyReleased(KeyEvent evt) {
-        String remove = txtRemove.getText();
-        if (remove.isEmpty()) return;
-        lstAfter.removeAll();
-        String[] before = ListModelToArray(lstBefore.getModel());
-        String[] after = RenameEngine.RemoveAllInstancesOf(remove, before, false);
-        LoadArrayIntoList(lstAfter, after);
-    }
-
-    private void LoadArrayIntoList(JList<String> control, String[] list) {
+    public void LoadArrayIntoList(JList<String> control, String[] list) {
         DefaultListModel<String> afterModel = new DefaultListModel<String>();
         for (int i = 0; i < list.length; i++) {
             afterModel.addElement(list[i]);
