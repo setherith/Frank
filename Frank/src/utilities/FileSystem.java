@@ -2,6 +2,8 @@ package utilities;
 
 import java.io.File;
 
+import preferences.Preferences;
+
 public class FileSystem {
     
     public static boolean PathExists(String path) {
@@ -41,6 +43,13 @@ public class FileSystem {
         if (PathExists(destination)) return false;
         if (PathIsDirectory(origin) || PathIsDirectory(destination)) return false;
         if (!PathExists(origin)) return false;
-        return new File(origin).renameTo(new File(destination));
+        Preferences prefs = new Preferences();
+        String debug = prefs.getPreference("debug");
+        if (debug.equals("true")) {
+        	System.out.println(String.format("%s -> %s", origin, destination));
+        	return true;
+        } else {
+        	return new File(origin).renameTo(new File(destination));
+        }
     }
 }
