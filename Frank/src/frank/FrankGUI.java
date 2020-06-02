@@ -8,9 +8,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoundedRangeModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -58,6 +61,14 @@ public class FrankGUI extends JFrame {
 		// Initial setup...
 		setTitle(String.format("Frank v%s", prefs.getPreference("version")));
 		setLayout(null);
+		
+		try {
+			InputStream is = getClass().getResourceAsStream("/logo.png");
+			setIconImage(ImageIO.read(is));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		setPreferredSize(new Dimension(700, 500));
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         
