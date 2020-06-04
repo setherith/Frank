@@ -211,9 +211,9 @@ public class FrankGUI extends JFrame {
             lstDrive.addItem(drive);    
         }
         
-        // Get Current Working Directory
-        String wd = FileSystem.GetApplicationPath();
-        txtPath.setText(wd);
+        // Setup start path
+        String startingPath = prefs.getPreference("cd").isEmpty() ? FileSystem.GetApplicationPath() : prefs.getPreference("cd");
+        txtPath.setText(startingPath);
         
         // Populate File List
         UpdateFileLists();

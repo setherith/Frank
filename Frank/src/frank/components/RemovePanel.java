@@ -19,7 +19,7 @@ public class RemovePanel extends JPanel {
 	
 	public RemovePanel(FrankGUI gui) {
 		
-		this.gui = gui;
+		RemovePanel.gui = gui;
 		
 		setLayout(null);
 		
