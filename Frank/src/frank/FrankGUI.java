@@ -34,8 +34,10 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 
 import frank.components.MainMenu;
-import frank.components.RemovePanel;
 import frank.components.WindowCloseListener;
+import frank.components.panels.AddPanel;
+import frank.components.panels.RemovePanel;
+import frank.components.panels.ReplacePanel;
 import preferences.Preferences;
 import utilities.FileSystem;
 
@@ -78,6 +80,8 @@ public class FrankGUI extends JFrame {
         btnRename = new JButton();
         tabOptions = new JTabbedPane();
         JPanel pnlRemove = new RemovePanel(this);
+        JPanel pnlAdd = new AddPanel(this);
+        JPanel pnlReplace = new ReplacePanel(this);
         
         lstDrive = new JComboBox<String>();
         lstDrive.setBounds(5, 5, 100, 25);
@@ -197,6 +201,8 @@ public class FrankGUI extends JFrame {
         add(btnRename);
 
         tabOptions.addTab("Remove", pnlRemove);
+        tabOptions.addTab("Add", pnlAdd);
+        tabOptions.addTab("Replace", pnlReplace);
 
         add(tabOptions);
         tabOptions.setBounds(5, 285, 675, 100);

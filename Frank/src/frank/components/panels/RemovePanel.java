@@ -1,9 +1,8 @@
-package frank.components;
+package frank.components.panels;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -39,7 +38,7 @@ public class RemovePanel extends JPanel {
                 gui.LoadArrayIntoList(gui.lstAfter, after);
             }
         });
-        txtRemove.setBounds(110, 5, 310, 25);
+        txtRemove.setBounds(110, 5, 550, 25);
         add(txtRemove);
 	}
 }
