@@ -216,7 +216,7 @@ public class FrankGUI extends JFrame {
         txtPath.setText(startingPath);
         
         // Populate File List
-        UpdateFileLists();
+        Update();
     }
 
     private void UpdateFileLists() {
