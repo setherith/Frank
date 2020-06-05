@@ -35,7 +35,7 @@ public class RemovePanel extends JPanel {
                 if (remove.isEmpty()) return;
                 gui.lstAfter.removeAll();
                 String[] before = gui.ListModelToArray(gui.lstBefore.getModel());
-                String[] after = RenameEngine.RemoveAllInstancesOf(remove, before, false);
+                String[] after = RenameEngine.RemoveAllInstancesOf(remove, before);
                 gui.LoadArrayIntoList(gui.lstAfter, after);
             }
         });

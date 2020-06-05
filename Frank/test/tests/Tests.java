@@ -109,7 +109,7 @@ public class Tests {
     
     @Test
     public void RemovingWords() {
-        String[] results = RenameEngine.RemoveAllInstancesOf("hdtv", typical, false);
+        String[] results = RenameEngine.RemoveAllInstancesOf("hdtv", typical);
         for (int i = 0; i < results.length; i++) {
             assert (results[i].equals(typicalMinusHdtv[i]));
         }
