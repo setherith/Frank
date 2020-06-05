@@ -41,14 +41,5 @@ public class RemovePanel extends JPanel {
         });
         txtRemove.setBounds(110, 5, 310, 25);
         add(txtRemove);
-        
-        JCheckBox chkRemoveAll = new JCheckBox();
-        chkRemoveAll.setText("All?");
-        chkRemoveAll.setBounds(420, 5, 50, 25);
-        add(chkRemoveAll);
-
 	}
-	
-	
-	
 }
