@@ -56,11 +56,11 @@ public class FrankGUI extends JFrame {
 	
 	private static final long serialVersionUID = 35470893526607351L;
 	
-	private static Preferences prefs;
+	public static Preferences prefs;
 	
 	public FrankGUI() {
 		
-		prefs = new Preferences();
+		FrankGUI.prefs = new Preferences();
 		
 		// Initial setup...
 		setTitle(String.format("Frank v%s", prefs.getPreference("version")));
