@@ -16,6 +16,8 @@ public class RemovePanel extends JPanel {
 
 	private static FrankGUI gui;
 	
+	private JTextField txtRemove;
+	
 	public RemovePanel(FrankGUI gui) {
 		
 		RemovePanel.gui = gui;
@@ -27,7 +29,7 @@ public class RemovePanel extends JPanel {
         
         add(lblRemove);
         
-        JTextField txtRemove = new JTextField();
+        txtRemove = new JTextField();
         txtRemove.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent evt) {
             	String remove = txtRemove.getText();
@@ -40,5 +42,9 @@ public class RemovePanel extends JPanel {
         });
         txtRemove.setBounds(110, 5, 550, 25);
         add(txtRemove);
+	}
+	
+	public void Clear() {
+		txtRemove.setText("");
 	}
 }

@@ -51,6 +51,8 @@ public class FrankGUI extends JFrame {
     private JScrollPane scrollBefore;
     private JTabbedPane tabOptions;
     private JTextField txtPath;
+    
+    private JPanel pnlRemove;
 	
 	private static final long serialVersionUID = 35470893526607351L;
 	
@@ -79,7 +81,7 @@ public class FrankGUI extends JFrame {
         
         btnRename = new JButton();
         tabOptions = new JTabbedPane();
-        JPanel pnlRemove = new RemovePanel(this);
+        pnlRemove = new RemovePanel(this);
         JPanel pnlAdd = new AddPanel(this);
         JPanel pnlReplace = new ReplacePanel(this);
         
@@ -194,7 +196,19 @@ public class FrankGUI extends JFrame {
         btnRename.setText("Rename");
         btnRename.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                btnRenameActionPerformed(evt);
+            	ListModel<String> before = lstBefore.getModel();
+                ListModel<String> after = lstAfter.getModel();
+                
+                for (int i = 0; i < before.getSize(); i++) {
+                    String fileBefore = before.getElementAt(i);
+                    String fileAfter = after.getElementAt(i);
+                    
+                    FileSystem.Rename(Paths.get(txtPath.getText(), fileBefore).toAbsolutePath().toString(), 
+                            Paths.get(txtPath.getText(), fileAfter).toAbsolutePath().toString());
+                }
+
+                Update();
+                Clear();
             }
         });
         btnRename.setBounds(580, 400, 100, 25);
@@ -224,7 +238,11 @@ public class FrankGUI extends JFrame {
         // Populate File List
         Update();
     }
-
+	
+	private void Clear() {
+		((RemovePanel) pnlRemove).Clear();
+	}
+	
     private void UpdateFileLists() {
         DefaultListModel<String> model = new DefaultListModel<String>();
         model.clear();
@@ -237,21 +255,6 @@ public class FrankGUI extends JFrame {
         lstAfter.setModel(model);
     }
     
-    private void btnRenameActionPerformed(ActionEvent evt) {
-        ListModel<String> before = lstBefore.getModel();
-        ListModel<String> after = lstAfter.getModel();
-        
-        for (int i = 0; i < before.getSize(); i++) {
-            String fileBefore = before.getElementAt(i);
-            String fileAfter = after.getElementAt(i);
-            
-            FileSystem.Rename(Paths.get(txtPath.getText(), fileBefore).toAbsolutePath().toString(), 
-                    Paths.get(txtPath.getText(), fileAfter).toAbsolutePath().toString());
-        }
-
-        Update();
-    }
-
     private void ChangeDirectoryCheck(String path) {
         if (path == null || path.length() == 0) return;
         String domain = txtPath.getText();
