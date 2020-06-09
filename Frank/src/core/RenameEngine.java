@@ -16,4 +16,8 @@ public class RenameEngine {
         }
         return result;
     }
+    
+    public static void Add(String text, int index) {
+    	
+    }
 }
