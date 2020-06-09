@@ -12,7 +12,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import core.RenameEngine;
+import core.Engine;
 import frank.FrankGUI;
 
 public class AddPanel extends JPanel {
@@ -63,7 +63,8 @@ public class AddPanel extends JPanel {
 	}
 	
 	private void Update() {
-		RenameEngine.Add(txtAdd.getText(), (int) sldAdd.getValue());
+		Engine.Add(gui.files, txtAdd.getText(), (int) sldAdd.getValue());
+		gui.UpdateLists();
 	}
 
 }

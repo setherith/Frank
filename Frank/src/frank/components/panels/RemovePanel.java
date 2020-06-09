@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import core.RenameEngine;
+import core.Engine;
 import frank.FrankGUI;
 
 public class RemovePanel extends JPanel {
@@ -32,16 +32,18 @@ public class RemovePanel extends JPanel {
         txtRemove = new JTextField();
         txtRemove.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent evt) {
-            	String remove = txtRemove.getText();
-                if (remove.isEmpty()) return;
-                gui.lstAfter.removeAll();
-                String[] before = gui.ListModelToArray(gui.lstBefore.getModel());
-                String[] after = RenameEngine.RemoveAllInstancesOf(remove, before);
-                gui.LoadArrayIntoList(gui.lstAfter, after);
+            	Update();
             }
         });
         txtRemove.setBounds(110, 5, 550, 25);
         add(txtRemove);
+	}
+	
+	private void Update() {
+		String remove = txtRemove.getText();
+        if (remove.isEmpty()) return;
+        Engine.Remove(gui.files, remove);
+        gui.UpdateLists();
 	}
 	
 	public void Clear() {

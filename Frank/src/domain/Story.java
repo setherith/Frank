@@ -6,10 +6,12 @@ import java.util.List;
 public class Story {
 
 	private List<String> Names;
+	private String Snapshot;
 	
 	public Story(String originalName) {
 		Names = new ArrayList<String>();
 		Names.add(originalName);
+		Snapshot = originalName;
 	}
 	
 	public String getOriginalName() {
@@ -26,6 +28,14 @@ public class Story {
 	
 	public void updateName(String name) {
 		Names.add(name);
+	}
+	
+	public String getSnapshot() {
+		return Snapshot;
+	}
+	
+	public void setSnapshot(String name) {
+		Snapshot = name;
 	}
 	
 }

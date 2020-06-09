@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoundedRangeModel;
@@ -26,13 +28,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 
+import core.Engine;
+import domain.Story;
 import frank.components.MainMenu;
 import frank.components.WindowCloseListener;
 import frank.components.panels.AddPanel;
@@ -43,15 +46,16 @@ import utilities.FileSystem;
 
 public class FrankGUI extends JFrame {
 
-    private JButton btnRename;
-    public JList<String> lstAfter;
-    public JList<String> lstBefore;
+	public JList<String> lstBefore;
+	public JList<String> lstAfter;
+	public List<Story> files;
+	
+	private JButton btnRename;
     private JComboBox<String> lstDrive;
     private JScrollPane scrollAfter;
     private JScrollPane scrollBefore;
     private JTabbedPane tabOptions;
     private JTextField txtPath;
-    
     private JPanel pnlRemove;
 	
 	private static final long serialVersionUID = 35470893526607351L;
@@ -59,6 +63,8 @@ public class FrankGUI extends JFrame {
 	public static Preferences prefs;
 	
 	public FrankGUI() {
+		
+		files = new ArrayList<Story>();
 		
 		FrankGUI.prefs = new Preferences();
 		
@@ -196,17 +202,9 @@ public class FrankGUI extends JFrame {
         btnRename.setText("Rename");
         btnRename.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-            	ListModel<String> before = lstBefore.getModel();
-                ListModel<String> after = lstAfter.getModel();
-                
-                for (int i = 0; i < before.getSize(); i++) {
-                    String fileBefore = before.getElementAt(i);
-                    String fileAfter = after.getElementAt(i);
-                    
-                    FileSystem.Rename(Paths.get(txtPath.getText(), fileBefore).toAbsolutePath().toString(), 
-                            Paths.get(txtPath.getText(), fileAfter).toAbsolutePath().toString());
-                }
+            	
 
+                Engine.Rename(txtPath.getText(), files);
                 Update();
                 Clear();
             }
@@ -243,16 +241,30 @@ public class FrankGUI extends JFrame {
 		((RemovePanel) pnlRemove).Clear();
 	}
 	
-    private void UpdateFileLists() {
-        DefaultListModel<String> model = new DefaultListModel<String>();
-        model.clear();
+    private void ReloadDirectory() {
         String wd = txtPath.getText();
-        String[] files = FileSystem.GetFileList(wd);
-        for (int i = 0; i < files.length; i++) {
-            model.add(i, files[i]);    
+        String[] names = FileSystem.GetFileList(wd);
+        
+        files.clear();
+        
+        for (int i = 0; i < names.length; i++) {
+        	files.add(new Story(names[i]));
         }
-        lstBefore.setModel(model);
-        lstAfter.setModel(model);
+        
+        UpdateLists();
+    }
+    
+    public void UpdateLists() {
+    	DefaultListModel<String> before = new DefaultListModel<String>();
+    	DefaultListModel<String> after = new DefaultListModel<String>();
+    	
+    	for (int f = 0; f < files.size(); f++) {
+    		before.add(f, files.get(f).getOriginalName());
+    		after.add(f, files.get(f).getLatestName());
+    	}
+    	
+        lstBefore.setModel(before);
+        lstAfter.setModel(after);
     }
     
     private void ChangeDirectoryCheck(String path) {
@@ -268,25 +280,9 @@ public class FrankGUI extends JFrame {
     }
     
     private void Update() {
-    	String path = txtPath.getText();
+    	Path path = Paths.get(txtPath.getText());
         if (FileSystem.PathExists(path) && FileSystem.PathIsDirectory(path)) {
-            UpdateFileLists();
+            ReloadDirectory();
         }
-    }
-    
-    public String[] ListModelToArray(ListModel<String> model) {
-        String[] results = new String[model.getSize()];
-        for (int i = 0; i < model.getSize(); i++) {
-            results[i] = model.getElementAt(i).toString();
-        }
-        return results;
-    }
-    
-    public void LoadArrayIntoList(JList<String> control, String[] list) {
-        DefaultListModel<String> afterModel = new DefaultListModel<String>();
-        for (int i = 0; i < list.length; i++) {
-            afterModel.addElement(list[i]);
-        }
-        control.setModel(afterModel);
     }
 }

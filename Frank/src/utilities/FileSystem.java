@@ -1,19 +1,18 @@
 package utilities;
 
 import java.io.File;
+import java.nio.file.Path;
 
 import preferences.Preferences;
 
 public class FileSystem {
     
-    public static boolean PathExists(String path) {
-        File f = new File(path);
-        return f.exists();
+    public static boolean PathExists(Path path) {
+        return path.toFile().exists();
     }
     
-    public static boolean PathIsDirectory(String path) {
-        File f = new File(path);
-        return f.isDirectory();
+    public static boolean PathIsDirectory(Path path) {
+        return path.toFile().isDirectory();
     }
 
     public static String GetApplicationPath() {
@@ -39,7 +38,7 @@ public class FileSystem {
         return result;
     }
     
-    public static boolean Rename(String origin, String destination) {
+    public static boolean Rename(Path origin, Path destination) {
         if (PathExists(destination)) return false;
         if (PathIsDirectory(origin) || PathIsDirectory(destination)) return false;
         if (!PathExists(origin)) return false;
@@ -49,7 +48,7 @@ public class FileSystem {
         	System.out.println(String.format("%s -> %s", origin, destination));
         	return true;
         } else {
-        	return new File(origin).renameTo(new File(destination));
+        	return origin.toFile().renameTo(destination.toFile());
         }
     }
 }
