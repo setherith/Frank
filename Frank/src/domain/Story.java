@@ -3,11 +3,11 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class History {
+public class Story {
 
 	private List<String> Names;
 	
-	public History(String originalName) {
+	public Story(String originalName) {
 		Names = new ArrayList<String>();
 		Names.add(originalName);
 	}
