@@ -1,16 +1,23 @@
 package frank;
 
+import preferences.Preferences;
+
 public class Frank {
 
     public static void main(String[] args) {
     	
+    	Preferences p = new Preferences();
+    	boolean splash = p.getPreference("display_splash").equals("true");
+    	
     	// Display splash screen...
-    	try {
-    		Splash s = new Splash();
-    		Thread.sleep(3000);
-    		s.dispose();
-    	} catch (InterruptedException e) {
-    		e.printStackTrace();
+    	if (splash) {
+    		try {
+    			Splash s = new Splash();
+    			Thread.sleep(3000);
+    			s.dispose();
+    		} catch (InterruptedException e) {
+    			e.printStackTrace();
+    		}
     	}
     	
     	// Display main application...
