@@ -26,6 +26,12 @@ public class Engine {
 		
 	}
 	
+	public static void Replace(List<Story> stories, String find, String replace) {
+		for (Story s : stories) {
+			s.updateName(s.getSnapshot().replace(find, replace));
+		}
+	}
+	
     public static void Remove(List<Story> stories, String text) {
     	for (Story s : stories) {
 			s.updateName(s.getSnapshot().replace(text, ""));
