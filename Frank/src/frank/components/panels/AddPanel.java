@@ -1,7 +1,7 @@
 package frank.components.panels;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -37,11 +37,13 @@ public class AddPanel extends JPanel {
 		add(lblAdd);
 
 		txtAdd = new JTextField();
-		txtAdd.addActionListener(new ActionListener() {
+		txtAdd.addKeyListener(new KeyAdapter() {
+			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				Update();
-			}
+            public void keyReleased(KeyEvent evt) {
+            	Update();
+            }
+			
 		});
 		txtAdd.setBounds(110, 5, 550, 25);
 		add(txtAdd);

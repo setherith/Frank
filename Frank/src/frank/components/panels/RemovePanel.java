@@ -31,9 +31,12 @@ public class RemovePanel extends JPanel {
         
         txtRemove = new JTextField();
         txtRemove.addKeyListener(new KeyAdapter() {
+        	
+        	@Override
             public void keyReleased(KeyEvent evt) {
             	Update();
             }
+        	
         });
         txtRemove.setBounds(110, 5, 550, 25);
         add(txtRemove);

@@ -34,7 +34,11 @@ public class Engine {
     
     public static void Add(List<Story> stories, String text, int index) {
     	for (Story s : stories) {
-    		s.updateName(s.getLatestName() + text);
+    		if (index <= s.getSnapshot().length()) {
+    			String before = s.getSnapshot().substring(0, index);
+    			String after = s.getSnapshot().substring(index);
+    			s.updateName(before + text + after);
+    		}
     	}
     }
 }
