@@ -8,20 +8,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.BoundedRangeModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -34,6 +30,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 
+import common.Frame;
 import core.Engine;
 import domain.Story;
 import frank.components.MainMenu;
@@ -44,7 +41,7 @@ import frank.components.panels.ReplacePanel;
 import preferences.Preferences;
 import utilities.FileSystem;
 
-public class FrankGUI extends JFrame {
+public class FrankGUI extends Frame {
 
 	public JList<String> lstBefore;
 	public JList<String> lstAfter;
@@ -71,13 +68,6 @@ public class FrankGUI extends JFrame {
 		// Initial setup...
 		setTitle(String.format("Frank v%s", prefs.getPreference("version")));
 		setLayout(null);
-		
-		try {
-			InputStream is = getClass().getResourceAsStream("/logo.png");
-			setIconImage(ImageIO.read(is));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
 		
 		setPreferredSize(new Dimension(700, 500));
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);

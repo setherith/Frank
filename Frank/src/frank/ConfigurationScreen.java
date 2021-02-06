@@ -10,9 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 
+import common.Frame;
 import preferences.Preferences;
 
-public class ConfigurationScreen extends JFrame {
+public class ConfigurationScreen extends Frame {
 
 	private static final long serialVersionUID = -854378945145343327L;
 
