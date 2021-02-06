@@ -83,7 +83,7 @@ public class FrankGUI extends JFrame {
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         
 		addWindowListener(new WindowCloseListener());
-		setJMenuBar(new MainMenu(this));
+		setJMenuBar(new MainMenu());
         
         btnRename = new JButton();
         tabOptions = new JTabbedPane();

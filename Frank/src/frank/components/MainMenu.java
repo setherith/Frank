@@ -9,19 +9,25 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import common.Dialogs;
-import frank.FrankGUI;
+import frank.ConfigurationScreen;
 
 public class MainMenu extends JMenuBar {
 
 	private static final long serialVersionUID = 5461153009699588813L;
 	
-	private FrankGUI gui;
-	
-	public MainMenu(FrankGUI gui) {
-		this.gui = gui;
+	public MainMenu() {
 		
 		JMenu file = new JMenu("File");
 		JMenu about = new JMenu("About");
+		
+		JMenuItem options = new JMenuItem("Options...");
+		options.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new ConfigurationScreen();
+			}
+		});
 		
 		JMenuItem exit = new JMenuItem("Exit...");
 		exit.addActionListener(new ActionListener() {
@@ -41,6 +47,7 @@ public class MainMenu extends JMenuBar {
 			}
 		});
 		
+		file.add(options);
 		file.add(exit);
 		
 		about.add(aboutPane);
