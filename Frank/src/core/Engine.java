@@ -21,7 +21,11 @@ public class Engine {
         }*/
 		
 		for (Story s : stories) {
-			FileSystem.Rename(Paths.get(root, s.getOriginalName()), Paths.get(root, s.getLatestName()));
+			// rename to something different first...
+			FileSystem.Rename(Paths.get(root, s.getOriginalName()), Paths.get(root, s.getLatestName() + ".frank"));
+			
+			// then rename with the correct case next...
+			FileSystem.Rename(Paths.get(root, s.getLatestName() + ".frank"), Paths.get(root, s.getLatestName()));
 		}
 		
 	}
