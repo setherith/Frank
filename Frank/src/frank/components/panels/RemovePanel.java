@@ -44,7 +44,6 @@ public class RemovePanel extends JPanel {
 	
 	private void Update() {
 		String remove = txtRemove.getText();
-        if (remove.isEmpty()) return;
         Engine.Remove(gui.files, remove);
         gui.UpdateLists();
 	}
