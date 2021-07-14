@@ -141,10 +141,10 @@ public class FrankGUI extends Frame {
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent arg0) {
 				// Sync before and after scrolling
-				BoundedRangeModel scrollModel = scrollBefore.getVerticalScrollBar().getModel();
-				scrollAfter.getVerticalScrollBar().setModel(scrollModel);
-				
-				
+				if (FrankGUI.prefs.getPreference("link_scroll").equals("true")) {
+					BoundedRangeModel scrollModel = scrollBefore.getVerticalScrollBar().getModel();
+					scrollAfter.getVerticalScrollBar().setModel(scrollModel);
+				}
 			}
 		});
         add(scrollBefore);
@@ -167,8 +167,10 @@ public class FrankGUI extends Frame {
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
 				// Sync before and after scrolling
-				BoundedRangeModel scrollModel = scrollAfter.getVerticalScrollBar().getModel();
-				scrollBefore.getVerticalScrollBar().setModel(scrollModel);
+				if (FrankGUI.prefs.getPreference("link_scroll").equals("true")) {
+					BoundedRangeModel scrollModel = scrollAfter.getVerticalScrollBar().getModel();
+					scrollBefore.getVerticalScrollBar().setModel(scrollModel);
+				}
 			}
 		});
         add(scrollAfter);
@@ -192,8 +194,6 @@ public class FrankGUI extends Frame {
         btnRename.setText("Rename");
         btnRename.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-            	
-
                 Engine.Rename(txtPath.getText(), files);
                 Update();
                 Clear();

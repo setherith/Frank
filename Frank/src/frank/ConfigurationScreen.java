@@ -23,6 +23,7 @@ public class ConfigurationScreen extends Frame {
 	
 	private JToggleButton togConfirmClose;
 	private JToggleButton togShowSplash;
+	private JToggleButton togLinkScroll;
 	
 	public ConfigurationScreen() {
 		
@@ -65,6 +66,19 @@ public class ConfigurationScreen extends Frame {
 		add(lblShowSplash);
 		add(togShowSplash);
 		
+		// Linked scrolling option..
+		JLabel lblLinkScrolling = new JLabel("Link scroll action?");
+		lblLinkScrolling.setBounds(10, 80, 200, 25);
+		
+		togLinkScroll = new JToggleButton();
+		togLinkScroll.setBounds(340, 80, 25, 25);
+		
+		boolean linkScroll = p.getPreference("link_scroll").equals("true");
+		togLinkScroll.setSelected(linkScroll);
+		
+		add(lblLinkScrolling);
+		add(togLinkScroll);
+		
 		JButton btnSave = new JButton("Save & Close");
 		btnSave.setBounds(10, 325, 360, 25);
 		btnSave.addActionListener(new ActionListener() {
@@ -83,9 +97,12 @@ public class ConfigurationScreen extends Frame {
 		
 		// check for differences...
 		if (togShowSplash.isSelected() != initialStates.get("display_splash").equals("true")
-				|| togConfirmClose.isSelected() != initialStates.get("confirm_close").equals("true")) {
+				|| togConfirmClose.isSelected() != initialStates.get("confirm_close").equals("true")
+				|| togLinkScroll.isSelected() != initialStates.get("link_scroll").equals("true")) 
+		{
 
-			var response = JOptionPane.showConfirmDialog(null, "Changes have been detected, would you like to save them?", 
+			var response = JOptionPane.showConfirmDialog(null, "Changes have been detected, would you like to save them?" +
+					"\n(some changes may require a restart to take effect)", 
 					"Changes", JOptionPane.YES_OPTION);
 			
 			if (response == JOptionPane.YES_OPTION) {
@@ -93,12 +110,14 @@ public class ConfigurationScreen extends Frame {
 				// set changes...
 				p.setPreference("display_splash", togShowSplash.isSelected() ? "true" : "false");
 				p.setPreference("confirm_close", togConfirmClose.isSelected() ? "true" : "false");
+				p.setPreference("link_scroll", togLinkScroll.isSelected() ? "true" : "false");
 				
 				// save changes...
 				p.savePreferences();
 			}
 		}
 		
+		FrankGUI.prefs = p;
 		setVisible(false);
 	}
 }
