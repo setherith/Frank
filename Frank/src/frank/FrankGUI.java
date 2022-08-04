@@ -19,21 +19,19 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 
 import common.Frame;
 import core.Engine;
+import domain.SelectableItem;
 import domain.Story;
 import frank.components.MainMenu;
+import frank.components.SelectableItemList;
 import frank.components.WindowCloseListener;
 import frank.components.panels.AddPanel;
 import frank.components.panels.RemovePanel;
@@ -43,8 +41,8 @@ import utilities.FileSystem;
 
 public class FrankGUI extends Frame {
 
-	public JList<String> lstBefore;
-	public JList<String> lstAfter;
+	public SelectableItemList lstBefore;
+	public SelectableItemList lstAfter;
 	public List<Story> files;
 	
 	private JButton btnRename;
@@ -124,14 +122,14 @@ public class FrankGUI extends Frame {
 		});
         add(btnBrowse);
 
-        lstBefore = new JList<String>();
-        lstBefore.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        lstBefore.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent evt) {
-                lstAfter.setSelectedIndex(lstBefore.getSelectedIndex());
-                ChangeDirectoryCheck(lstBefore.getSelectedValue());
-            }
-        });
+        lstBefore = new SelectableItemList();
+        //lstBefore.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//        lstBefore.addListSelectionListener(new ListSelectionListener() {
+//            public void valueChanged(ListSelectionEvent evt) {
+//                lstAfter.setSelectedIndex(lstBefore.getSelectedIndex());
+//                ChangeDirectoryCheck(lstBefore.getSelectedValue());
+//            }
+//        });
         
         scrollBefore = new JScrollPane();
         scrollBefore.setViewportView(lstBefore);
@@ -149,15 +147,15 @@ public class FrankGUI extends Frame {
 		});
         add(scrollBefore);
 
-        lstAfter = new JList<String>();
-        lstAfter.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        lstAfter = new SelectableItemList();
+        //lstAfter.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
-        lstAfter.addListSelectionListener(new ListSelectionListener() {
-        	public void valueChanged(ListSelectionEvent evt) {
-        		lstBefore.setSelectedIndex(lstAfter.getSelectedIndex());
-        		ChangeDirectoryCheck(lstAfter.getSelectedValue());
-        	}
-        });
+//        lstAfter.addListSelectionListener(new ListSelectionListener() {
+//        	public void valueChanged(ListSelectionEvent evt) {
+//        		lstBefore.setSelectedIndex(lstAfter.getSelectedIndex());
+//        		ChangeDirectoryCheck(lstAfter.getSelectedValue());
+//        	}
+//        });
         
         scrollAfter = new JScrollPane();
         scrollAfter.setViewportView(lstAfter);
@@ -208,7 +206,7 @@ public class FrankGUI extends Frame {
 
         add(tabOptions);
         tabOptions.setBounds(5, 285, 675, 100);
-
+        
         pack();
         setLocationRelativeTo(null);
 
@@ -245,22 +243,22 @@ public class FrankGUI extends Frame {
     }
     
     public void UpdateLists() {
-    	DefaultListModel<String> before = new DefaultListModel<String>();
-    	DefaultListModel<String> after = new DefaultListModel<String>();
+    	DefaultListModel<SelectableItem> before = new DefaultListModel<SelectableItem>();
+    	DefaultListModel<SelectableItem> after = new DefaultListModel<SelectableItem>();
     	
     	for (int f = 0; f < files.size(); f++) {
-    		before.add(f, files.get(f).getOriginalName());
-    		after.add(f, files.get(f).getLatestName());
+    		before.add(f, new SelectableItem(files.get(f).getOriginalName()));
+    		after.add(f, new SelectableItem(files.get(f).getLatestName()));
     	}
     	
         lstBefore.setModel(before);
         lstAfter.setModel(after);
     }
     
-    private void ChangeDirectoryCheck(String path) {
-        if (path == null || path.length() == 0) return;
+    private void ChangeDirectoryCheck(SelectableItem item) {
+        if (item.Value == null || item.Value.length() == 0) return;
         String domain = txtPath.getText();
-        Path combination = Paths.get(domain, path);
+        Path combination = Paths.get(domain, item.Value);
         boolean isDir = combination.toFile().isDirectory();
         if (isDir) {
             txtPath.setText(combination.toAbsolutePath().toString());
