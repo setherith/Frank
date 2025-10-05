@@ -18,6 +18,8 @@ import java.util.Optional;
 
 import domain.SearchResult;
 import domain.SearchResultItem;
+import domain.SeasonItem;
+import domain.SeasonResult;
 
 
 public class Lookup {
@@ -26,30 +28,42 @@ public class Lookup {
 	
 	private String token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNDM2MGQyZTk5NjgwZGMxZTliYTRiOGE5YzBlZjkwMiIsIm5iZiI6MTc1OTMxNjIzOC4yNzksInN1YiI6IjY4ZGQwOTBlMTE3M2QzMDg1ODM4ZDAwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.cxVzzQwl1-01SDcQ3W80hLgNiByrhg-dDZ8hODpabPw";
 	
+	public Optional<List<SeasonItem>> getSeasons(String id) {
+		String url = "https://api.themoviedb.org/3/tv/" + id + "?language=en-US";
+		Optional<SeasonResult> responseData = responseTo(SeasonResult.class, url);
+		if (responseData.isPresent()) {
+			return Optional.of(responseData.get().getSeasons());
+		}
+		return Optional.empty();
+	}
+	
+	private <T> Optional<T> responseTo(Class<T> obj, String url) {
+		Optional<HttpResponse<String>> response = fetchResponse(url);
+		if (response.isPresent()) {
+			HttpResponse<String> resp = response.get();
+			ObjectMapper mapper = new ObjectMapper();
+			T data;
+			try {
+				data = mapper.readValue(resp.body(), obj);
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+				return Optional.empty();
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+				return Optional.empty();
+			}
+			return Optional.of(data);
+		}
+		return Optional.empty();
+	}
+	
 	public Optional<String[][]> getCandidates() {
 		Optional<String> sanitisedQuery = sanitise(query);
 		if (sanitisedQuery.isPresent()) {
 			String url = "https://api.themoviedb.org/3/search/tv?query=" + sanitisedQuery.get() + "&include_adult=true&language=en-US&page=1";
-			Optional<HttpResponse<String>> response = fetchResponse(url);
-			if (response.isPresent()) {
-				HttpResponse<String> resp = response.get();
-				ObjectMapper mapper = new ObjectMapper();
-				SearchResult responseData;
-				try {
-					responseData = mapper.readValue(resp.body(), SearchResult.class);
-					
-				} catch (JsonMappingException e) {
-					
-					e.printStackTrace();
-					return Optional.empty();
-					
-				} catch (JsonProcessingException e) {
-					
-					e.printStackTrace();
-					return Optional.empty();
-				}
-				
-				List<SearchResultItem> results = responseData.getResults();
+			Optional<SearchResult> responseData = responseTo(SearchResult.class, url);
+			if (responseData.isPresent()) {
+				List<SearchResultItem> results = responseData.get().getResults();
 				String[][] r = new String[results.size()][2];
 				int count = 0;
 				for (SearchResultItem item : results) {
