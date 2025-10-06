@@ -30,6 +30,12 @@ public class Engine {
 		
 	}
 	
+	public static void ReplaceWithList(List<Story> stories, List<String> names) {
+		if (stories.size() != names.size()) return;
+		for (int i = 0; i < stories.size(); i++)
+			stories.get(i).updateName(names.get(i));
+	}
+	
 	public static void Replace(List<Story> stories, String find, String replace) {
 		for (Story s : stories) {
 			s.updateName(s.getSnapshot().replace(find, replace));

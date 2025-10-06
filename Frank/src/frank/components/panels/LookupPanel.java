@@ -8,7 +8,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import core.Lookup;
 import frank.FrankGUI;
 import frank.LookupResultsWindow;
 
@@ -17,9 +16,13 @@ public class LookupPanel extends JPanel {
 	private static final long serialVersionUID = -5734343878943396176L;
 
 	private JTextField txtQuery;
+	
+	private FrankGUI gui;
 
 	public LookupPanel(FrankGUI gui) {
 
+		this.gui = gui;
+		
 		setLayout(null);
 
 		JLabel lblQuery = new JLabel("Find:");
@@ -43,7 +46,7 @@ public class LookupPanel extends JPanel {
 
 	private void Update() {
 		if (txtQuery.getText().isEmpty()) return;
-		new LookupResultsWindow(txtQuery.getText());
+		new LookupResultsWindow(txtQuery.getText(), gui);
 	}
 
 }

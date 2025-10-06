@@ -2,6 +2,7 @@ package frank;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,9 +18,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumnModel;
 
+import core.Engine;
 import core.Lookup;
 import domain.EpisodeItem;
 import domain.SeasonItem;
+import domain.Story;
 
 public class LookupResultsWindow extends JFrame {
 
@@ -30,7 +33,9 @@ public class LookupResultsWindow extends JFrame {
 	private int selectedId;
 	private String selectedName;
 	
-	public LookupResultsWindow(String query) {
+	public LookupResultsWindow(String query, FrankGUI gui) {
+		
+		List<Story> stories = gui.files;
 		
 		lup = new Lookup(query);
 		String[][] results = lup.getCandidates().get();
@@ -122,7 +127,12 @@ public class LookupResultsWindow extends JFrame {
 		btnSubmit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Applying list (WIP)...");
+				DefaultListModel<String> episodes = (DefaultListModel<String>) lstEpisodes.getModel();
+				int size = episodes.size();
+				List<String> episodeNames = new ArrayList<String>();
+				for (int i = 0; i < size; i++) episodeNames.add(episodes.elementAt(i));
+				Engine.ReplaceWithList(stories, episodeNames);
+				gui.UpdateLists();
 				setVisible(false);
 			}
 		});
