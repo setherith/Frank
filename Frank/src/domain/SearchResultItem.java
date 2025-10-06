@@ -3,16 +3,20 @@ package domain;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SearchResultItem {
 	
 	private int id;
 	private String name;
-	private String first_air_date;
+	
+	@JsonProperty("first_air_date")
+	private String firstDate;
 	
 	public SearchResultItem() {}
 	
@@ -25,13 +29,15 @@ public class SearchResultItem {
 	}
 	
 	public Optional<LocalDate> getFirstAired() {
-		
-		if (first_air_date == null) {
+		if (firstDate == null) {
 			return Optional.empty();
 		}
-		
-		DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDate date = LocalDate.parse(first_air_date, df);
-		return Optional.of(date);
+		try {
+			DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate date = LocalDate.parse(firstDate, df);
+			return Optional.of(date);
+		} catch (DateTimeParseException e) {
+			return Optional.empty();
+		}
 	}
 }

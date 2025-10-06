@@ -16,6 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
 
+import domain.EpisodeItem;
+import domain.EpisodeResult;
 import domain.SearchResult;
 import domain.SearchResultItem;
 import domain.SeasonItem;
@@ -27,6 +29,15 @@ public class Lookup {
 	private String query;
 	
 	private String token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNDM2MGQyZTk5NjgwZGMxZTliYTRiOGE5YzBlZjkwMiIsIm5iZiI6MTc1OTMxNjIzOC4yNzksInN1YiI6IjY4ZGQwOTBlMTE3M2QzMDg1ODM4ZDAwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.cxVzzQwl1-01SDcQ3W80hLgNiByrhg-dDZ8hODpabPw";
+	
+	public Optional<List<EpisodeItem>> getEpisodes(int seriesId, int seasonId) {
+		String url = "https://api.themoviedb.org/3/tv/" + seriesId + "/season/" + seasonId + "?language=en-US";
+		Optional<EpisodeResult> responseData = responseTo(EpisodeResult.class, url);
+		if (responseData.isPresent()) {
+			return Optional.of(responseData.get().getEpisodes());
+		}
+		return Optional.empty();
+	}
 	
 	public Optional<List<SeasonItem>> getSeasons(String id) {
 		String url = "https://api.themoviedb.org/3/tv/" + id + "?language=en-US";
@@ -68,7 +79,11 @@ public class Lookup {
 				int count = 0;
 				for (SearchResultItem item : results) {
 					r[count][0] = String.valueOf(item.getId());
-					r[count][1] = item.getName();
+					if (item.getFirstAired().isPresent()) {
+						r[count][1] = String.format("%s (%s)", item.getName(), item.getFirstAired().get().getYear());
+					} else {
+						r[count][1] = item.getName();
+					}
 					count++;
 				}
 				return Optional.of(r);
