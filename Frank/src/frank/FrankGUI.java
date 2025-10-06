@@ -36,6 +36,7 @@ import domain.Story;
 import frank.components.MainMenu;
 import frank.components.WindowCloseListener;
 import frank.components.panels.AddPanel;
+import frank.components.panels.LookupPanel;
 import frank.components.panels.RemovePanel;
 import frank.components.panels.ReplacePanel;
 import preferences.Preferences;
@@ -80,6 +81,7 @@ public class FrankGUI extends Frame {
         pnlRemove = new RemovePanel(this);
         JPanel pnlAdd = new AddPanel(this);
         JPanel pnlReplace = new ReplacePanel(this);
+        JPanel pnlLookup = new LookupPanel(this);
         
         lstDrive = new JComboBox<String>();
         lstDrive.setBounds(5, 5, 100, 25);
@@ -205,6 +207,7 @@ public class FrankGUI extends Frame {
         tabOptions.addTab("Remove", pnlRemove);
         tabOptions.addTab("Add", pnlAdd);
         tabOptions.addTab("Replace", pnlReplace);
+        tabOptions.addTab("Lookup", pnlLookup);
 
         add(tabOptions);
         tabOptions.setBounds(5, 285, 675, 100);
