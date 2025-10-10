@@ -2,6 +2,7 @@ package utilities;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 import preferences.Preferences;
 
@@ -31,6 +32,7 @@ public class FileSystem {
     public static String[] GetFileList(String path) {
         File directory = new File(path);
         File[] allFiles = directory.listFiles();
+        Arrays.sort(allFiles);
         String[] result = new String[allFiles.length];
         for (int i = 0; i < allFiles.length; i++) {
             result[i] = allFiles[i].getName();
