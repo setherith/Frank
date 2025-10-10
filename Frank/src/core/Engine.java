@@ -30,10 +30,15 @@ public class Engine {
 		
 	}
 	
+	private static String GetExtension(String fullName) {
+		int index = fullName.lastIndexOf(".");
+		return fullName.substring(index);
+	}
+	
 	public static void ReplaceWithList(List<Story> stories, List<String> names) {
 		if (stories.size() != names.size()) return;
 		for (int i = 0; i < stories.size(); i++)
-			stories.get(i).updateName(names.get(i));
+			stories.get(i).updateName(names.get(i) + GetExtension(stories.get(i).getOriginalName()));
 	}
 	
 	public static void Replace(List<Story> stories, String find, String replace) {

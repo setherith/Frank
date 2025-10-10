@@ -127,11 +127,19 @@ public class LookupResultsWindow extends JFrame {
 		btnSubmit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DefaultListModel<String> episodes = (DefaultListModel<String>) lstEpisodes.getModel();
-				int size = episodes.size();
-				List<String> episodeNames = new ArrayList<String>();
-				for (int i = 0; i < size; i++) episodeNames.add(episodes.elementAt(i));
-				Engine.ReplaceWithList(stories, episodeNames);
+				// check to see if the user has selected items...
+				if (!lstEpisodes.isSelectionEmpty()) {
+					// replace with selection
+					List<String> selection = lstEpisodes.getSelectedValuesList();
+					Engine.ReplaceWithList(stories, selection);
+				} else {
+					// replace the whole list
+					DefaultListModel<String> episodes = (DefaultListModel<String>) lstEpisodes.getModel();
+					int size = episodes.size();
+					List<String> episodeNames = new ArrayList<String>();
+					for (int i = 0; i < size; i++) episodeNames.add(episodes.elementAt(i));					
+					Engine.ReplaceWithList(stories, episodeNames);
+				}
 				gui.UpdateLists();
 				setVisible(false);
 			}
